@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>NFL Career Stats Looker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav>
+  <a href="{{ url_for('main.index') }}">Home</a>
+  <a href="{{ url_for('main.search') }}">Search Players</a>
+
+  {% if session.get("user_id") %}
+    <span style="margin-left:auto; color:#ffb612;">
+      Logged in as {{ session.get('username') }}
+    </span>
+    <a href="{{ url_for('auth.logout') }}">Logout</a>
+  {% else %}
+    <a href="{{ url_for('auth.login') }}">Login</a>
+    <a href="{{ url_for('auth.register') }}">Register</a>
+  {% endif %}
+</nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

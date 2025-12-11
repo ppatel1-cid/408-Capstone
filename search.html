@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Search Players</h2>
+
+<form method="get" action="{{ url_for('main.search') }}">
+  <input
+    type="text"
+    name="q"
+    placeholder="Enter player name"
+    value="{{ query }}"
+  >
+  <button type="submit">Search</button>
+</form>
+
+{% if query %}
+  {% if api_results %}
+    <h3>Results for "{{ query }}" (Live API)</h3>
+    <ul class="player-list">
+      {% for p in api_results %}
+        <li class="player-result api-result">
+          <a href="{{ url_for('main.player_detail', api_id=p.api_id) }}" class="player-link">
+            {% if p.thumb %}
+              <img
+                src="{{ p.thumb }}"
+                alt="{{ p.name }}"
+                class="player-thumb"
+              >
+            {% endif %}
+            <div class="api-result-info">
+              <strong>{{ p.name }}</strong>
+              {% if p.position %} — {{ p.position }}{% endif %}
+              {% if p.team %} ({{ p.team }}){% endif %}
+              {% if p.league %}
+                <div class="api-league">{{ p.league }}</div>
+              {% endif %}
+              <div class="api-badge">Data from TheSportsDB API</div>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No players found for "{{ query }}".</p>
+  {% endif %}
+{% endif %}
+{% endblock %}

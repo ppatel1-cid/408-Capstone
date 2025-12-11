@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ player.name }}</h2>
+
+<div class="player-detail-card">
+  {% if player.banner %}
+    <img src="{{ player.banner }}" alt="{{ player.name }}" class="player-banner">
+  {% elif player.thumb %}
+    <img src="{{ player.thumb }}" alt="{{ player.name }}" class="player-thumb-large">
+  {% endif %}
+
+  <div class="player-meta">
+    <p><strong>Sport / League:</strong> {{ player.league or "American Football" }}</p>
+    <p><strong>Team:</strong> {{ player.team or "N/A" }}</p>
+    <p><strong>Position:</strong> {{ player.position or "N/A" }}</p>
+    <p><strong>Jersey #:</strong> {{ player.number or "N/A" }}</p>
+    <p><strong>Nationality:</strong> {{ player.nationality or "N/A" }}</p>
+    <p><strong>Birth Date:</strong> {{ player.birth_date or "N/A" }}</p>
+    <p><strong>Birth Place:</strong> {{ player.birth_place or "N/A" }}</p>
+    <p><strong>Height:</strong> {{ player.height or "N/A" }}</p>
+    <p><strong>Weight:</strong> {{ player.weight or "N/A" }}</p>
+    <p><strong>College:</strong> {{ player.college or "N/A" }}</p>
+  </div>
+</div>
+
+{% if player.career_stats %}
+  <h3>Career Stats (Pro-Football-Reference)</h3>
+  <table class="career-table">
+    <tbody>
+      {% if player.career_stats.seasons %}
+      <tr>
+        <th>Seasons</th>
+        <td>{{ player.career_stats.seasons }}</td>
+      </tr>
+      {% endif %}
+      <tr>
+        <th>Games Played</th>
+        <td>{{ player.career_stats.games }}</td>
+      </tr>
+
+      {% if player.career_stats.pass_yards %}
+      <tr><th>Passing Yards</th><td>{{ player.career_stats.pass_yards }}</td></tr>
+      {% endif %}
+      {% if player.career_stats.pass_tds %}
+      <tr><th>Passing TDs</th><td>{{ player.career_stats.pass_tds }}</td></tr>
+      {% endif %}
+      {% if player.career_stats.interceptions %}
+      <tr><th>Interceptions</th><td>{{ player.career_stats.interceptions }}</td></tr>
+      {% endif %}
+
+      {% if player.career_stats.rush_attempts %}
+      <tr><th>Rushing Attempts</th><td>{{ player.career_stats.rush_attempts }}</td></tr>
+      {% endif %}
+      {% if player.career_stats.rush_yards %}
+      <tr><th>Rushing Yards</th><td>{{ player.career_stats.rush_yards }}</td></tr>
+      {% endif %}
+      {% if player.career_stats.rush_tds %}
+      <tr><th>Rushing TDs</th><td>{{ player.career_stats.rush_tds }}</td></tr>
+      {% endif %}
+
+      {% if player.career_stats.receptions %}
+      <tr><th>Receptions</th><td>{{ player.career_stats.receptions }}</td></tr>
+      {% endif %}
+      {% if player.career_stats.rec_yards %}
+      <tr><th>Receiving Yards</th><td>{{ player.career_stats.rec_yards }}</td></tr>
+      {% endif %}
+      {% if player.career_stats.rec_tds %}
+      <tr><th>Receiving TDs</th><td>{{ player.career_stats.rec_tds }}</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if player.description %}
+  <h3>Career Summary</h3>
+  <p class="player-description">
+    {{ player.description }}
+  </p>
+{% endif %}
+
+<p class="api-badge">
+  Profile data from TheSportsDB API. Career stats scraped from Pro-Football-Reference
+  using the <code>pro-football-reference-web-scraper</code> library.
+</p>
+{% endblock %}
